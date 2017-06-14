@@ -3,7 +3,6 @@ class TeamsController < ApplicationController
   before_action :set_by_slug_team, only: [:show]
 
   def index
-    @teams = current_user.teams
   end
 
   def show
@@ -27,21 +26,21 @@ class TeamsController < ApplicationController
     @team.destroy
 
     respond_to do |format|
-      format.json { head :no_content }
+      format.json { render json: true }
     end
   end
 
   private
 
-    def set_by_slug_team
-      @team = Team.find_by(slug: params[:slug])
-    end
+  def set_by_slug_team
+    @team = Team.find_by(slug: params[:slug])
+  end
 
-    def set_team
-      @team = Team.find(params[:id])
-    end
+  def set_team
+    @team = Team.find(params[:id])
+  end
 
-    def team_params
-      params.require(:team).permit(:slug).merge(user: current_user)
-    end
+  def team_params
+    params.require(:team).permit(:slug).merge(user: current_user)
+  end
 end
